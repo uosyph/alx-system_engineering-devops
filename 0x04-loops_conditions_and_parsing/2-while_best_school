@@ -2,8 +2,7 @@
 # Displays "Best School" 10 times using "while" loop
 
 count=1
-while [ $count -le 10 ]
-do
+while [ $count -le 10 ]; do
     echo "Best School"
     ((count++))
 done

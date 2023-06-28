@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Displays the content of the current directory in a list format
 
-for i in *
-do
+for i in *; do
 	echo "$i" | cut -f 2- -d '-'
 done

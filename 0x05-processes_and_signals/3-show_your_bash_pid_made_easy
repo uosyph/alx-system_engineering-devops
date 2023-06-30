@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Displays the PID and the process name of the processes containing "bash"
+# shellcheck disable=SC2009
+
+pgrep -l bash

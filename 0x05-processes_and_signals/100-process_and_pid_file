@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Sets up traps to handle signals and infinite loops
+
+file=/var/run/myscript.pid
+
+quit() {
+    sudo rm $file
+    exit
+}
+
+term() {
+    echo 'I hate the kill command'
+    sudo rm $file
+    exit
+}
+
+trap quit SIGQUIT
+trap term SIGTERM
+trap "echo 'Y U no love me?!'" SIGINT
+
+sudo bash -c "echo $$ > $file"
+
+while ((1)); do
+    echo "To infinity and beyond"
+    sleep 2
+done

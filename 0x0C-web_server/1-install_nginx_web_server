@@ -1,7 +1,20 @@
 #!/usr/bin/env bash
 # Installs Nginx on an Ubuntu server
-sudo apt-get -y update
+sudo apt-get update
 sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
-echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html
-sudo service nginx restart
+
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chown -R "$USER":"$USER" /etc/nginx/sites-available/default
+
+touch /var/www/html/index.html
+echo 'Hello World!' > /var/www/html/index.html
+
+echo "server {
+     listen      80 default_server;
+     listen      [::]:80 default_server;
+     root        /var/www/html;
+     index       index.html index.htm;
+}" > /etc/nginx/sites-available/default
+
+sudo service nginx start

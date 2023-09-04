@@ -1,13 +1,26 @@
 #!/usr/bin/env bash
 # Configures a new Nginx server with a HAproxy load-balancer
-sudo apt-get -y install software-properties-common
-add-apt-repository -y ppa:vbernat/haproxy-1.8
-sudo apt-get -y update
-sudo apt-get -y install haproxy=1.8.\*
-sed -i '/errorfile 504/a listen thelaura' /etc/haproxy/haproxy.cfg
-sed -i '/listen thelaura/a         bind :80' /etc/haproxy/haproxy.cfg
-sed -i '/bind :80/a         mode http' /etc/haproxy/haproxy.cfg
-sed -i '/mode http/a         server 19994-web-01 3.239.120.182 check' /etc/haproxy/haproxy.cfg
-sed -i '/server 19994-web-01 3.239.120.182 check/a         server 19994-web-02 3.237.26.100 check' /etc/haproxy/haproxy.cfg
-sed -i '/#EXTRAOPTS="-de -m 16"/a ENABLED=1' /etc/default/haproxy
-sudo service haproxy start
+
+# Updating Packages and installing HAproxy
+sudo apt-get update
+sudo apt-get -y install haproxy
+
+# Editing config file
+server_config="
+frontend  besthor_frontend
+        bind *:80
+        mode http
+        default_backend besthor_backend
+backend besthor_backend
+        balance roundrobin
+        server 176572-web-01 54.165.168.252:80 check
+        server 176572-web-02 34.237.91.136:80 check
+"
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
+
+# Enabling haproxy to be started by init script
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+
+# Testing configurations and restarting Nginx
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+sudo service haproxy restart

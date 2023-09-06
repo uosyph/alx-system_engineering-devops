@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Debugging Nginx port 80
-# Resolved the issue by deleting the existing one and replacing it with a symbolic link
+# Fixed a problem regarding port 80 by deleting the Nginx config file and replacing it with a symbolic link
 rm /etc/nginx/sites-enabled/default
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx restart

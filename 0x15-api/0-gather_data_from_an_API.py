@@ -3,8 +3,8 @@
 Reads info for a specified employee from an API and prints it out
 """
 
-from sys import argv
 from requests import get
+from sys import argv
 
 
 def main():
@@ -15,20 +15,20 @@ def main():
     id = argv[1]
     url_user = f"https://jsonplaceholder.typicode.com/users/{id}"
     url_tasks = f"https://jsonplaceholder.typicode.com/users/{id}/todos"
-    
+
     res = get(url_tasks)
     tasks = res.json()
-    
+
     user_info = get(url_user).json()
     employee_name = user_info["name"]
     done_tasks = [task for task in tasks if task["completed"]]
-    
+
     print(
         "Employee {} is done with tasks({}/{}):".format(
             employee_name, len(done_tasks), len(tasks)
         )
     )
-    
+
     for task in done_tasks:
         print(f"\t {task['title']}")
 

@@ -27,7 +27,7 @@ def sort_histogram(histogram={}):
                                     lambda kv: f"{kv[0]}: {kv[1]}", histogram
                                     )))
     if keyword_count:
-        print(keyword_count)
+        print(keyword_count, end="")
 
 
 def count_words(subreddit, word_list, histogram=[], count=0, after=None):

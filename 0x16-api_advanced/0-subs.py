@@ -1,15 +1,15 @@
 #!/usr/bin/python3
-"""
-Queries the Reddit API and returns
-the number of subscribers for a given subreddit.
-If an invalid subreddit is given, the function should return 0.
-"""
+"""Return the total number of subscribers on a given subreddit."""
 
 import requests
 
 
 def number_of_subscribers(subreddit):
-    """Return the total number of subscribers on a given subreddit."""
+    """
+    Queries the Reddit API and returns
+    the number of subscribers for a given subreddit.
+    If an invalid subreddit is given, the function should return 0.
+    """
 
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
     headers = {"User-Agent": "linux:0x16.api.advanced"}

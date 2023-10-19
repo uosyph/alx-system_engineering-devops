@@ -1,14 +1,12 @@
-# Fixes the number of failed requests to 0
+# Increase the maximum number of concurrent connections to Nginx to improve performance under high load.
 
-service { 'nginx stop':
-  ensure => stopped;
+exec {'nginx_connection_limit':
+  provider => shell,
+  command  => 'sudo sed -i "s/ULIMIT=\"-n 15\"/ULIMIT=\"-n 4096\"/" /etc/default/nginx',
+  before   => Exec['nginx_restart'],
 }
 
-exec { 'fix--for-nginx':
-  command => "sed -i 's/15/2000/g' /etc/default/nginx",
-  path    => ['/bin'],
-}
-
-service { 'nginx':
-  ensure => running,
+exec {'nginx_restart':
+  provider => shell,
+  command  => 'sudo service nginx restart',
 }

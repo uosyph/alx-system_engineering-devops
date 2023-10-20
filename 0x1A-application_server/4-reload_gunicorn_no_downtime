@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 # Gracefully reload Gunicorn
-pgrep gunicorn | xargs kill -HUP
+
+MASTER_PID=$(pgrep gunicorn)
+kill -HUP $MASTER_PID

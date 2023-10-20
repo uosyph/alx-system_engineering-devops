@@ -1,3 +1,18 @@
 #!/usr/bin/env bash
 # Gracefully reload Gunicorn
-kill -HUP "$(pgrep gunicorn)"
+
+PIDOF="/usr/bin/pidof"
+GUNICORN="${HOME}/AirBnB_clone_v4/bin/gunicorn"
+PID=$($PIDOF "$GUNICORN")
+
+if [ -n "$PID" ]; then
+    kill -s USR2 "$PID"
+    sleep 1
+    newpid=$($PIDOF "$GUNICORN")
+    if [ "$newpid" != "${PID}" ]; then
+        kill -s WINCH "$(echo "$PID" | awk '{print $1}')"
+        kill -s QUIT "$(echo "$PID" | awk '{print $1}')"
+    fi
+fi
+
+fikill -HUP "$(pgrep gunicorn)"

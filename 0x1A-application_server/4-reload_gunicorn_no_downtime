@@ -1,7 +1,3 @@
 #!/usr/bin/env bash
 # Gracefully reload Gunicorn
-
-MASTER_PID=$(pgrep -f '[g]unicorn')
-kill -HUP "$MASTER_PID"
-sleep 5
-pgrep -f '[g]unicorn'
+kill -HUP "$(pgrep gunicorn)"
